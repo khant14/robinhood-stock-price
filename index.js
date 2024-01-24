@@ -7,7 +7,11 @@ let searchTicker;
 
 (async () => {
   // Launch the browser and open a new blank page
-  browser = await puppeteer.launch();
+  browser = await puppeteer.launch({
+    args: [
+      '--no-sandbox', '--disable-setuid-sandbox'
+    ]
+  });
   page = await browser.newPage();
 
   // Set screen size

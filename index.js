@@ -4,6 +4,8 @@ const app = express();
 let browser;
 let page;
 let searchTicker;
+const PORT = process.env.PORT || 8001;
+const BLOCKED_RESOURCES = ['image', 'stylesheet', 'ping', 'font'];
 
 (async () => {
   // Launch the browser and open a new blank page
@@ -13,9 +15,17 @@ let searchTicker;
     ]
   });
   page = await browser.newPage();
+  await page.setRequestInterception(true);
+  page.on("request", (request) => {
+    if (!request.url().includes('robinhood') || BLOCKED_RESOURCES.includes(request.resourceType())) {
+      request.abort();
+    } else {
+      request.continue();
+    }
+  });
 
   // Set screen size
-  await page.setViewport({ width: 1080, height: 1024 });
+  await page.setViewport({ width: 100, height: 100 });
 
   app.get('/:ticker', async (req, res) => {
     try {
@@ -39,7 +49,7 @@ let searchTicker;
     }
   });
 
-  app.listen(process.env.PORT, () =>
-    console.log(`Listening on port: ${process.env.PORT}!`),
+  app.listen(PORT, () =>
+    console.log(`Listening on port: ${PORT}!`),
   );
 })();

@@ -32,6 +32,8 @@ const BLOCKED_RESOURCES = ['image', 'stylesheet', 'ping', 'font'];
     await page.goto(`https://robinhood.com/us/en/stocks/${ticker}/`);
     // Wait for page load
     await page.waitForSelector('#sdp-market-price');
+    // Save page tab for future
+    pageMap.set(ticker, page);
 
     return page;
   }

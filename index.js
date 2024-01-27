@@ -6,6 +6,8 @@ let pageMap = new Map();
 let priceMap = new Map();
 const PORT = process.env.PORT || 8001;
 const BLOCKED_RESOURCES = ['image', 'stylesheet', 'ping', 'font'];
+const PRELOADED_STOCKS = ['AMC', 'GME', 'TSLA'];
+const PRELOADED_CRYPTO = ['BTC', 'ETC'];
 
 (async () => {
   // Launch the browser and open a new blank page
@@ -44,6 +46,14 @@ const BLOCKED_RESOURCES = ['image', 'stylesheet', 'ping', 'font'];
     // Save page tab for future
     pageMap.set(ticker, page);
   }
+
+  // Preload some tickers
+  PRELOADED_STOCKS.forEach(stock => {
+    createPage(stock, 'stocks');
+  });
+  PRELOADED_CRYPTO.forEach(crypto => {
+    createPage(crypto, 'crypto');
+  })
 
   app.get('/stocks/:ticker', async (req, res) => {
     try {

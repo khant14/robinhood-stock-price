@@ -4,7 +4,7 @@ const app = express();
 let browser;
 let pageMap = new Map();
 let priceMap = new Map();
-const PORT = process.env.PORT || 8003;
+const PORT = process.env.PORT || 8001;
 const BLOCKED_RESOURCES = ['image', 'stylesheet', 'ping', 'font'];
 
 (async () => {
